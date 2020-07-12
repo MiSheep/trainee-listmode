@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bosssoft.hr.train.mapper.OrderInfoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.bosssoft.hr.train.entity.OrderInfo">
+        <id column="orderInfoUID" property="orderInfoUID" />
+        <result column="cartUID" property="cartUID" />
+        <result column="goodsUID" property="goodsUID" />
+        <result column="name" property="name" />
+        <result column="number" property="number" />
+        <result column="price" property="price" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        orderInfoUID, cartUID, goodsUID, name, number, price
+    </sql>
+
+</mapper>
