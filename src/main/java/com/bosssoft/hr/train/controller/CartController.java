@@ -25,21 +25,27 @@ public class CartController {
     //购物车中添加商品
     @PostMapping("/add")
     public String add(@RequestBody Goods goods){
-        cartService.add(goods);
+        if(!cartService.add(goods)){
+            return "add failed.check your goodsUID and name";
+        }
         return "add goods:"+goods.getName();
     }
 
     //删
     @PostMapping("/remove")
     public String remove(@RequestBody Goods goods) {
-        cartService.remove(goods.getGoodsUID());
+        if(!cartService.remove(goods.getGoodsUID())){
+            return "remove failed.check your goodsUID";
+        }
         return "remove goods:"+goods.getName();
     }
 
     //改
     @PostMapping("/edit")
     public String edit(@RequestBody Goods goods) {
-        cartService.edit(goods.getGoodsUID(),goods.getNumber());
+        if(!cartService.edit(goods.getGoodsUID(),goods.getNumber())){
+            return "edit failed.check your goodsUID and number";
+        }
         return "edit goods:"+goods.getName()+",set number:"+goods.getNumber();
     }
 
