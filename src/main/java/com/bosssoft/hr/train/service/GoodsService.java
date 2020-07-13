@@ -8,14 +8,18 @@ import java.util.List;
 
 /**
  * <p>
- *  服务类
+ *  商品
  * </p>
  *
  * @author misheep
  * @since 2020-07-12
  */
 public interface GoodsService extends IService<Goods> {
-    //获取店家全部货物
+    //从数据库获取店家全部商品
     public HashMap<Long,Goods> getAllGoods();
+    //获取商品清单
+    public HashMap<Long,Goods> getGoodsMap();
+    //寻找商品信息
+    public boolean findGoods(Goods goods);
 
 }

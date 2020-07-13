@@ -14,7 +14,7 @@ import java.util.Iterator;
 
 /**
  * <p>
- *  服务实现类
+ *  商品订单（购物车内商品）
  * </p>
  *
  * @author misheep
@@ -27,17 +27,20 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
     @Autowired
     private OrderInfoMapper orderInfoMapper;
 
+    //提交（结算）购物车内商品订单
     @Override
     public void settle(long cartUid) {
-        OrderInfo orderInfo = new OrderInfo();
-        double totalPrice=0;
+        //获取购物车map，key=GoodsUid(商品主键),value=(商品类)
         HashMap<Long, Goods> cart = cartService.getCart();
+        //购物车内商品主键的迭代器
         Iterator iterator = cart.keySet().iterator();
+        //临时商品对象，指向当前遍历的车内商品
         Goods goodsTmp = null;
+        //临时商品订单对象
         OrderInfo orderInfoTmp = null;
-
+        //遍历车内商品，写入数据库
         while(iterator.hasNext()){
-            goodsTmp = (Goods) iterator.next();
+            goodsTmp = (Goods) cart.get(iterator.next());
             orderInfoTmp = new OrderInfo();
             orderInfoTmp.setCartUID(cartUid);
             orderInfoTmp.setGoodsUID(goodsTmp.getGoodsUID());
@@ -46,6 +49,5 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             orderInfoTmp.setPrice(goodsTmp.getPrice());
             orderInfoMapper.insert(orderInfoTmp);
         }
-
     }
 }

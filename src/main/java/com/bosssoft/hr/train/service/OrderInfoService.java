@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
  * <p>
- *  服务类
+ *  商品订单（购物车内商品）
  * </p>
  *
  * @author misheep

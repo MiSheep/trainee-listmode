@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 /**
  * <p>
- *  前端控制器
+ *  商品订单（购物车内商品）
  * </p>
  *
  * @author misheep

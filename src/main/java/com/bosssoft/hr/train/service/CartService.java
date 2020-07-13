@@ -8,7 +8,7 @@ import java.util.HashMap;
 
 /**
  * <p>
- *  服务类
+ *  购物车
  * </p>
  *
  * @author misheep
