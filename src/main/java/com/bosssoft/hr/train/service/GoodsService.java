@@ -21,5 +21,15 @@ public interface GoodsService extends IService<Goods> {
     public HashMap<Long,Goods> getGoodsMap();
     //寻找商品信息
     public boolean findGoods(Goods goods);
+    //增加商品（店主维护商品列表）
+    public boolean add(Goods goods);
+    //删
+    public boolean remove(long goodsUid);
+    //改
+    public boolean edit(Goods goods);
+    //查，通过name
+    public Goods getOne(String name);
+    //查，通过id
+    public Goods getOne(long goodsUid);
 
 }

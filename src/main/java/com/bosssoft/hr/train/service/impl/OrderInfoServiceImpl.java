@@ -1,5 +1,6 @@
 package com.bosssoft.hr.train.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.bosssoft.hr.train.entity.Goods;
 import com.bosssoft.hr.train.entity.OrderInfo;
 import com.bosssoft.hr.train.mapper.OrderInfoMapper;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * <p>
@@ -49,5 +51,15 @@ public class OrderInfoServiceImpl extends ServiceImpl<OrderInfoMapper, OrderInfo
             orderInfoTmp.setPrice(goodsTmp.getPrice());
             orderInfoMapper.insert(orderInfoTmp);
         }
+    }
+    //获取历史购物车uid为cartUid的购物车下，所有商品信息
+
+    @Override
+    public List<OrderInfo> getHistory(long cartUid) {
+        QueryWrapper<OrderInfo> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("cartUID",cartUid);
+        //通过mybatis-plus的selectList方法，获取cartUid匹配的商品信息
+        List<OrderInfo> orderInfoList = orderInfoMapper.selectList(queryWrapper);
+        return orderInfoList;
     }
 }

@@ -29,5 +29,7 @@ public interface CartService extends IService<Cart> {
     public long getOwnerId();
     //从session中获得当前购物车
     public HashMap<Long, Goods> getCart();
+    //查找历史购物车，by购物车uid
+    public Cart getHistory(Long cartUid);
 
 }

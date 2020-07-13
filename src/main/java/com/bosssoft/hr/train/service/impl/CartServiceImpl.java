@@ -148,4 +148,9 @@ public class CartServiceImpl extends ServiceImpl<CartMapper, Cart> implements Ca
         System.out.println(JSONObject.toJSONString(myCart.entrySet().toArray()));
         return myCart;
     }
+
+    @Override
+    public Cart getHistory(Long cartUid) {
+        return cartMapper.selectById(cartUid);
+    }
 }

@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * <p>
- *  商品
+ * 商品
  * </p>
  *
  * @author misheep
@@ -25,18 +25,18 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     @Autowired
     private GoodsMapper goodsMapper;
     //店家的商品清单，key=GoodsUid(商品主键),value=(商品类)
-    private HashMap<Long,Goods> goodsHashMap;
+    private HashMap<Long, Goods> goodsHashMap;
 
     //从数据库获取店家全部商品
     @Override
-    public HashMap<Long,Goods> getAllGoods() {
+    public HashMap<Long, Goods> getAllGoods() {
         QueryWrapper<Goods> queryWrapper = new QueryWrapper<>();
         //通过mybatis-plus的selectList方法，在queryWrapper不设条件时可获取该店家全部商品
         List<Goods> goodsList = goodsMapper.selectList(queryWrapper);
         goodsHashMap = new HashMap<>();
         //以key=GoodsUid(商品主键),value=(商品类)的方式存入HashMap
-        goodsList.forEach(item->{
-            goodsHashMap.put(item.getGoodsUID(),item);
+        goodsList.forEach(item -> {
+            goodsHashMap.put(item.getGoodsUID(), item);
         });
         return goodsHashMap;
     }
@@ -46,18 +46,63 @@ public class GoodsServiceImpl extends ServiceImpl<GoodsMapper, Goods> implements
     public HashMap<Long, Goods> getGoodsMap() {
         return goodsHashMap;
     }
-    //寻找商品信息
+
+    //寻找商品是否存在
     @Override
     public boolean findGoods(Goods goods) {
         //判断商品实体类是否为空，或者是否存在数据库中
-        if(goods==null || !goodsHashMap.containsKey(goods.getGoodsUID())) {
+        if (goods == null || !goodsHashMap.containsKey(goods.getGoodsUID())) {
             return false;
         }
         Goods goods1 = goodsHashMap.get(goods.getGoodsUID());
         //判断该商品与店家商品清单中GoodsUid相等的商品的name和price是否相等
-        if(goods.getName().equals(goods1.getName()) && goods.getPrice().equals(goods1.getPrice())){
+        if (goods.getName().equals(goods1.getName()) && goods.getPrice().equals(goods1.getPrice())) {
             return true;
         }
         return false;
+    }
+
+    //增加商品（店主维护商品列表）
+    @Override
+    public boolean add(Goods goods) {
+        if (getOne(goods.getName())!=null || getOne(goods.getGoodsUID())!=null) {
+            return false;
+        }
+        goodsMapper.insert(goods);
+        return true;
+    }
+
+    //删
+    @Override
+    public boolean remove(long goodsUid) {
+        int result = goodsMapper.deleteById(goodsUid);
+        if (result == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    //改
+    @Override
+    public boolean edit(Goods goods) {
+        int result = goodsMapper.updateById(goods);
+        if (result == 0) {
+            return false;
+        }
+        return true;
+    }
+
+    //查，通过name
+    @Override
+    public Goods getOne(String name) {
+        QueryWrapper<Goods> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("name", name);
+        return goodsMapper.selectOne(queryWrapper);
+    }
+
+    //查，通过id
+    @Override
+    public Goods getOne(long goodsUid) {
+        return goodsMapper.selectById(goodsUid);
     }
 }
